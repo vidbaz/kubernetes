@@ -45,15 +45,15 @@ Vagrant.configure(2) do |config|
   # Kubernetes Worker Nodes
   (1..WORKER_NODE_COUNT).each do |i|
 
-    config.vm.define "worker#{i}" do |node|
+    config.vm.define "node0#{i}" do |node|
 
       node.vm.box               = "generic/ubuntu2004"
-      node.vm.hostname          = "worker#{i}.vidbaz.net"
+      node.vm.hostname          = "node0#{i}.vidbaz.net"
 
       node.vm.network "private_network", ip: "#{WORKER_IP}#{i}"
 
       node.vm.provider :virtualbox do |v|
-        v.name    = "worker#{i}"
+        v.name    = "node0#{i}"
         v.memory  = WORKER_MEMORY_MB
         v.cpus    = WORKER_CPU
       end

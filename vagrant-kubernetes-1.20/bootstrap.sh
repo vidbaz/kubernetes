@@ -60,6 +60,6 @@ echo 'complete -F __start_kubectl k' >>~/.bashrc
 echo "[TASK 11] Update /etc/hosts file"
 cat >>/etc/hosts<<EOF
 172.28.128.10   controlplane.vidbaz.net     controlplane
-172.28.128.11   worker1.vidbaz.net    worker1
-172.28.128.12   worker2.vidbaz.net    worker2
+172.28.128.11   node01.vidbaz.net    node01
+172.28.128.12   node02.vidbaz.net    node02
 EOF
