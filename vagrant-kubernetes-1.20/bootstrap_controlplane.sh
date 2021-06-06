@@ -11,3 +11,8 @@ kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f "https://cloud.weave.wo
 
 echo "[TASK 4] Generate and save cluster join command to /joincluster.sh"
 kubeadm token create --print-join-command > /joincluster.sh 2>/dev/null
+
+echo "[TASK 5] Set kubeconfig configuration"
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
