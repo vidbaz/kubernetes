@@ -54,6 +54,7 @@ echo -e "kube\nkube" | passwd root >/dev/null 2>&1
 echo "export TERM=xterm" >> /etc/bash.bashrc
 
 echo "[TASK 10] Configure Autocomplete" # https://kubernetes.io/docs/tasks/tools/included/optional-kubectl-configs-bash-linux/
+echo 'source <(kubectl completion bash)' >>~/.bashrc
 echo 'alias k=kubectl' >>~/.bashrc
 echo 'complete -F __start_kubectl k' >>~/.bashrc
 
