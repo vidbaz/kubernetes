@@ -50,12 +50,17 @@ echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
 systemctl reload sshd
 
 echo "[TASK 9] Set root password"
-echo -e "kubeadmin\nkubeadmin" | passwd root >/dev/null 2>&1
+echo -e "kube\nkube" | passwd root >/dev/null 2>&1
 echo "export TERM=xterm" >> /etc/bash.bashrc
 
-echo "[TASK 10] Update /etc/hosts file"
+echo "[TASK 10] Configure Autocomplete" # https://kubernetes.io/docs/tasks/tools/included/optional-kubectl-configs-bash-linux/
+echo 'source <(kubectl completion bash)' >>~/.bashrc
+echo 'alias k=kubectl' >>~/.bashrc
+echo 'complete -F __start_kubectl k' >>~/.bashrc
+
+echo "[TASK 11] Update /etc/hosts file"
 cat >>/etc/hosts<<EOF
-172.16.16.100   kmaster.example.com     kmaster
-172.16.16.101   kworker1.example.com    kworker1
-172.16.16.102   kworker2.example.com    kworker2
+172.28.128.10   controlplane.vidbaz.net     controlplane
+172.28.128.11   node01.vidbaz.net    node01
+172.28.128.12   node02.vidbaz.net    node02
 EOF
