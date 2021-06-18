@@ -4,7 +4,7 @@ echo "[TASK: Pull required containers]"
 kubeadm config images pull >/dev/null 2>&1
 
 echo "[TASK: Initialize Kubernetes Cluster]"
-kubeadm init --apiserver-advertise-address=172.28.128.10 --pod-network-cidr=192.168.0.0/16 >> /root/kubeinit.log 2>/dev/null
+kubeadm init --apiserver-advertise-address=172.28.128.20 --pod-network-cidr=192.168.0.0/16 >> /root/kubeinit.log 2>/dev/null
 
 echo "[TASK: Set kubeconfig configuration]"
 mkdir -p $HOME/.kube
@@ -16,6 +16,9 @@ kubectl create -f https://docs.projectcalico.org/manifests/calico.yaml >/dev/nul
 # echo "[TASK: Deploy Calico network with tigera operator]" #https://docs.projectcalico.org/getting-started/kubernetes/quickstart
 # kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml > /dev/null 2>&1
 # kubectl create -f https://docs.projectcalico.org/manifests/custom-resources.yaml > /dev/null 2>&1
+
+# echo "[TASK: Deploy Weave network cni plugin]"
+# kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')" >/dev/null 2>&1
 
 echo "[TASK: Generate and save cluster join command to /root/joincluster.sh]"
 kubeadm token create --print-join-command > /root/joincluster.sh 2>/dev/null

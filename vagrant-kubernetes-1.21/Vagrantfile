@@ -1,8 +1,12 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+CLUSTER_VERSION="21"
 
-CONTROLPLANE_IP = "172.28.128.10"
-WORKER_IP = "172.28.128.1"
+CONTROLPLANE_NAME= "controlplane-#{CLUSTER_VERSION}"
+WORKER_NAME="node-#{CLUSTER_VERSION}-0"
+
+CONTROLPLANE_IP = "172.28.128.20"
+WORKER_IP = "172.28.128.2"
 
 CONTROLPLANE_MEMORY_MB = "6144" #6G
 WORKER_MEMORY_MB = "6144" #6G
@@ -19,15 +23,15 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", path: "bootstrap.sh"
 
   # Kubernetes Master Server
-  config.vm.define "controlplane" do |node|
+  config.vm.define CONTROLPLANE_NAME do |node|
   
     node.vm.box               = "generic/ubuntu2004"
-    node.vm.hostname          = "controlplane.vidbaz.net"
+    node.vm.hostname          = "#{CONTROLPLANE_NAME}.vidbaz.net"
 
     node.vm.network "private_network", ip: CONTROLPLANE_IP
   
     node.vm.provider :virtualbox do |v|
-      v.name    = "controlplane"
+      v.name    = CONTROLPLANE_NAME
       v.memory  = CONTROLPLANE_MEMORY_MB
       v.cpus    =  CONTROLPLANE_CPU
     end
@@ -45,15 +49,15 @@ Vagrant.configure(2) do |config|
   # Kubernetes Worker Nodes
   (1..WORKER_NODE_COUNT).each do |i|
 
-    config.vm.define "node0#{i}" do |node|
+    config.vm.define "#{WORKER_NAME}#{i}" do |node|
 
       node.vm.box               = "generic/ubuntu2004"
-      node.vm.hostname          = "node0#{i}.vidbaz.net"
+      node.vm.hostname          = "#{WORKER_NAME}#{i}.vidbaz.net"
 
       node.vm.network "private_network", ip: "#{WORKER_IP}#{i}"
 
       node.vm.provider :virtualbox do |v|
-        v.name    = "node0#{i}"
+        v.name    = "#{WORKER_NAME}#{i}"
         v.memory  = WORKER_MEMORY_MB
         v.cpus    = WORKER_CPU
       end
